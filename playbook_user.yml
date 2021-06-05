@@ -1,0 +1,35 @@
+---
+- hosts: sf-ansible-playbook
+  tasks:
+
+  - name: make user1 group
+    group:
+      name:  user1
+      state: present
+
+  - name: make user1 user
+    user:
+      name:  user1
+      group: user1
+      shell: /bin/bash
+      expires: -1
+
+  - name: make .ssh folder
+    file:
+      path:  /home/user1/.ssh
+      state: directory
+      owner: user1
+      group: user1
+      mode: u=rw,g=,o=
+
+  - name: copy key files
+    copy:
+      src:  vault/{{ item }}
+      dest: /home/user1/.ssh/{{ item }}
+      owner: user1
+      group: user1
+      mode: u=rw,g=,o=
+    with_items:
+      - id_rsa
+      - id_rsa.pub
+

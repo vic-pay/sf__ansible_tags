@@ -1,0 +1,29 @@
+---
+- hosts: localhost
+  tasks:
+
+  - name: make lxd container
+    lxd_container:
+      name:       sf-ansible-playbook
+      state:      started
+      source:
+        type:     image
+        mode:     pull
+        server:   https://images.linuxcontainers.org
+        protocol: simplestreams 
+        alias:    ubuntu/21.04
+      profiles:   ["default"]
+      config: {}
+      devices: 
+        eth0: 
+          name:         eth0
+          nictype:      bridged
+          parent:       lxdbr0
+          type:         nic
+          ipv4.address: 10.160.24.33
+        root:
+          path:    /
+          pool:    mnt-pool
+          type:    disk
+      wait_for_ipv4_addresses: true
+      timeout: 600

@@ -1,0 +1,17 @@
+---
+- hosts: sf-ansible-playbook
+  tasks:
+
+  - name: install postfix
+    apt:
+      name: ['postfix']
+      state: 'present'
+      update_cache: yes
+    tags: ['postfix-init']
+
+  - name: uninstall postfix
+    apt:
+      name: ['postfix']
+      state: 'absent'
+      update_cache: yes
+    tags: ['postfix-drop']

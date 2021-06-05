@@ -1,0 +1,14 @@
+---
+all:
+  children:
+    lxd_servers:
+      hosts:
+        localhost:
+          ansible_connection: local
+
+    lxd_containers:
+      hosts:
+        sf-ansible-playbook:
+          ansible_connection: lxd
+          ansible_host:       sf-ansible-playbook
+          ip_address:         10.160.24.33
